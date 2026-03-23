@@ -89,7 +89,7 @@ const ProgressRing = ({ value, max, size = 120, color = "#fff", expectedPct }) =
 const TimelineStrip = ({ dates, actualPct, color }) => {
   const exp = calcExpected(dates); const dl = daysLeft(dates); const hasTimeline = exp != null;
   const status = !hasTimeline ? "none" : actualPct >= exp ? "ahead" : actualPct >= exp * 0.7 ? "ontrack" : "behind";
-  const sC = { ahead: "#c8ff00", ontrack: "#ffaa00", behind: "#ff4444", none: "#555" };
+  const sC = { ahead: "#FFD600", ontrack: "#ffaa00", behind: "#ff4444", none: "#555" };
   const sL = { ahead: "ADELANTADO", ontrack: "EN RANGO", behind: "ATRASADO", none: "SIN FECHAS" };
   return (
     <div style={{ marginTop: 8 }}>
@@ -155,7 +155,7 @@ const FunnelChart = ({ ventas }) => {
 
 const Btn = ({ children, onClick, variant = "primary", small, style: sx }) => {
   const base = { border: "none", cursor: "pointer", fontFamily: "'DM Mono', monospace", fontWeight: 700, fontSize: small ? 11 : 13, padding: small ? "4px 10px" : "8px 18px", borderRadius: 0, transition: "all .15s", textTransform: "uppercase", letterSpacing: 1, ...sx };
-  const styles = { primary: { ...base, background: "#fff", color: "#0a0a0a" }, danger: { ...base, background: "#ff4444", color: "#fff" }, ghost: { ...base, background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.3)" }, accent: { ...base, background: "#c8ff00", color: "#0a0a0a" } };
+  const styles = { primary: { ...base, background: "#FFD600", color: "#0a0a0a" }, danger: { ...base, background: "#ff4444", color: "#fff" }, ghost: { ...base, background: "transparent", color: "#FFD600", border: "1px solid #FFD600" }, accent: { ...base, background: "#FFD600", color: "#0a0a0a" } };
   return <button style={styles[variant] || styles.primary} onClick={onClick}>{children}</button>;
 };
 
@@ -170,10 +170,10 @@ const DateInput = ({ value, onChange }) => (
 );
 
 const SectionHeader = ({ title, icon, count }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0 8px", borderBottom: "2px solid #fff", marginBottom: 2 }}>
+  <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "14px 0 8px", borderBottom: "2px solid #FFD600", marginBottom: 2 }}>
     <span style={{ fontSize: 20 }}>{icon}</span>
     <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, letterSpacing: 2, textTransform: "uppercase", fontFamily: "'DM Mono', monospace" }}>{title}</h3>
-    {count !== undefined && <span style={{ marginLeft: "auto", background: "#fff", color: "#0a0a0a", padding: "2px 10px", fontSize: 12, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>{count}</span>}
+    {count !== undefined && <span style={{ marginLeft: "auto", background: "#FFD600", color: "#0a0a0a", padding: "2px 10px", fontSize: 12, fontWeight: 800, fontFamily: "'DM Mono', monospace" }}>{count}</span>}
   </div>
 );
 
@@ -181,7 +181,7 @@ const Modal = ({ show, onClose, title, children }) => {
   if (!show) return null;
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 999, background: "rgba(0,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(4px)" }} onClick={onClose}>
-      <div style={{ background: "#1a1a1a", border: "2px solid #fff", padding: 28, maxWidth: 560, width: "92%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+      <div style={{ background: "#111111", border: "2px solid #FFD600", padding: 28, maxWidth: 560, width: "92%", maxHeight: "85vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h3 style={{ margin: 0, fontFamily: "'DM Mono', monospace", fontSize: 16, fontWeight: 800, letterSpacing: 1 }}>{title}</h3>
           <span style={{ cursor: "pointer", fontSize: 22, opacity: 0.6 }} onClick={onClose}>✕</span>
@@ -194,7 +194,7 @@ const Modal = ({ show, onClose, title, children }) => {
 
 const GoalBlock = ({ label, valueKey, editGoals, setEditGoals, kpiKey, editDates, setEditDates, placeholder, prefix, suffix }) => (
   <div style={{ padding: "14px 0", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-    <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#c8ff00", textTransform: "uppercase" }}>{label}</p>
+    <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#FFD600", textTransform: "uppercase" }}>{label}</p>
     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
       {prefix && <span style={{ fontSize: 11, opacity: 0.5, whiteSpace: "nowrap" }}>{prefix}</span>}
       <Input type="number" value={editGoals[valueKey] || ""} onChange={(v) => setEditGoals({ ...editGoals, [valueKey]: v })} placeholder={placeholder} />
@@ -316,7 +316,7 @@ export default function KPIDashboard() {
     { id: "scouting", label: "Scouting" }, { id: "historial", label: "Historial" },
   ];
 
-  const badgeColor = (t) => ({ cliente_agregado:"#c8ff00", pago_actualizado:"#00d4ff", upsale:"#00ff88", activo_ia:"#ff8800", scouting:"#a855f7", contratado:"#22d3ee", descartado:"#ff4444", lead_nuevo:"#a855f7", lead_movido:"#ffaa00", lead_descartado:"#ff4444" })[t] || "#555";
+  const badgeColor = (t) => ({ cliente_agregado:"#FFD600", pago_actualizado:"#00d4ff", upsale:"#00ff88", activo_ia:"#ff8800", scouting:"#a855f7", contratado:"#22d3ee", descartado:"#ff4444", lead_nuevo:"#a855f7", lead_movido:"#ffaa00", lead_descartado:"#ff4444" })[t] || "#555";
   const cardStyle = { border: "1px solid rgba(255,255,255,0.2)", padding: 20, background: "repeating-linear-gradient(180deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 20px, transparent 20px, transparent 40px)" };
   const nextStage = (key) => { const i = FUNNEL_STAGES.findIndex(s => s.key === key); return i < FUNNEL_STAGES.length - 1 ? FUNNEL_STAGES[i+1] : null; };
 
@@ -327,14 +327,14 @@ export default function KPIDashboard() {
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
         @keyframes slideIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
         ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0a0a0a; } ::-webkit-scrollbar-thumb { background: #333; }
-        input:focus, select:focus { border-color: #c8ff00 !important; }
+        input:focus, select:focus { border-color: #FFD600 !important; }
         select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px 12px; font-family: 'DM Mono', monospace; font-size: 13px; border-radius: 0; outline: none; }
       `}</style>
 
       {/* Header */}
-      <div style={{ padding: "20px 24px", borderBottom: "3px solid #fff", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+      <div style={{ padding: "20px 24px", borderBottom: "3px solid #FFD600", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 36, height: 36, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#0a0a0a", fontWeight: 800, fontSize: 18 }}>Z</span></div>
+          <div style={{ width: 36, height: 36, background: "#FFD600", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#0a0a0a", fontWeight: 800, fontSize: 18 }}>Z</span></div>
           <div>
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase" }}>KPI Tracker</h1>
             <p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 2 }}>ZEBRA DASHBOARD • {today()}</p>
@@ -346,7 +346,7 @@ export default function KPIDashboard() {
       {/* Tabs */}
       <div style={{ display: "flex", borderBottom: "1px solid rgba(255,255,255,0.15)", overflow: "auto" }}>
         {tabs.map(t => (
-          <div key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: "12px 20px", cursor: "pointer", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", borderBottom: activeTab === t.id ? "3px solid #c8ff00" : "3px solid transparent", color: activeTab === t.id ? "#c8ff00" : "rgba(255,255,255,0.5)", transition: "all .2s", whiteSpace: "nowrap" }}>{t.label}</div>
+          <div key={t.id} onClick={() => setActiveTab(t.id)} style={{ padding: "12px 20px", cursor: "pointer", fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", borderBottom: activeTab === t.id ? "3px solid #FFD600" : "3px solid transparent", color: activeTab === t.id ? "#FFD600" : "rgba(255,255,255,0.5)", transition: "all .2s", whiteSpace: "nowrap" }}>{t.label}</div>
         ))}
       </div>
 
@@ -358,9 +358,9 @@ export default function KPIDashboard() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16, marginBottom: 28 }}>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Upsale</p>
-                <ProgressRing value={Math.max(upsaleActual,0)} max={g.upsalePercent} size={100} color="#c8ff00" expectedPct={calcExpected(dt.upsale)} />
+                <ProgressRing value={Math.max(upsaleActual,0)} max={g.upsalePercent} size={100} color="#FFD600" expectedPct={calcExpected(dt.upsale)} />
                 <p style={{ textAlign: "center", margin: "6px 0 0", fontSize: 11, opacity: 0.6 }}>{upsaleActual.toFixed(1)}% / {g.upsalePercent}%</p>
-                <TimelineStrip dates={dt.upsale} actualPct={upsalePct} color="#c8ff00" />
+                <TimelineStrip dates={dt.upsale} actualPct={upsalePct} color="#FFD600" />
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Ingreso Recurrente</p>
@@ -370,7 +370,7 @@ export default function KPIDashboard() {
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Activos IA</p>
-                <div style={{ marginTop: 8 }}><ParallelBars label1="Nuevos" val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#c8ff00" label2="En Proceso" val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" /></div>
+                <div style={{ marginTop: 8 }}><ParallelBars label1="Nuevos" val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2="En Proceso" val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" /></div>
                 <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#ff8800" />
               </div>
               <div style={cardStyle}>
@@ -409,13 +409,13 @@ export default function KPIDashboard() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20, padding: 16, border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(180deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 16px, transparent 16px, transparent 32px)" }}>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>PAGO INICIAL</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800 }}>{fmt(totalIngresoInicial)}</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>PAGO ACTUAL</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#c8ff00" }}>{fmt(totalIngresoActual)}</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>UPSALE</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: upsaleActual >= g.upsalePercent ? "#c8ff00" : "#ff4444" }}>{upsaleActual.toFixed(1)}%</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>PAGO ACTUAL</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#FFD600" }}>{fmt(totalIngresoActual)}</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>UPSALE</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: upsaleActual >= g.upsalePercent ? "#FFD600" : "#ff4444" }}>{upsaleActual.toFixed(1)}%</p></div>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>ACUMULADO</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#00ff88" }}>{fmt(totalIngresoActual - totalIngresoInicial)}</p></div>
             </div>
             <div style={{ marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, opacity: 0.5, marginBottom: 4 }}><span>Progreso a {fmt(g.ingresoPesos)}</span><span>{ingresoPct.toFixed(1)}%</span></div>
-              <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ingresoPct}%`, height: "100%", background: "linear-gradient(90deg, #00d4ff, #c8ff00)", transition: "width .6s" }} /></div>
+              <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ingresoPct}%`, height: "100%", background: "linear-gradient(90deg, #00d4ff, #FFD600)", transition: "width .6s" }} /></div>
               <TimelineStrip dates={dt.ingreso} actualPct={ingresoPct} color="#00d4ff" />
             </div>
             {data.clients.length === 0 && <p style={{ opacity: 0.4, fontSize: 13, padding: 20, textAlign: "center" }}>Agrega tu primer cliente.</p>}
@@ -426,9 +426,9 @@ export default function KPIDashboard() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                       <span style={{ fontWeight: 700, fontSize: 13 }}>{c.name}</span>
-                      <span style={{ fontSize: 9, padding: "1px 6px", fontWeight: 700, background: cu > 0 ? "#c8ff00" : cu < 0 ? "#ff4444" : "#555", color: "#0a0a0a" }}>{cu > 0 ? "+" : ""}{cu.toFixed(1)}%</span>
+                      <span style={{ fontSize: 9, padding: "1px 6px", fontWeight: 700, background: cu > 0 ? "#FFD600" : cu < 0 ? "#ff4444" : "#555", color: "#0a0a0a" }}>{cu > 0 ? "+" : ""}{cu.toFixed(1)}%</span>
                     </div>
-                    <div style={{ fontSize: 10, opacity: 0.5, marginTop: 2 }}>Inicio: {fmt(c.pagoInicial)} → Actual: <span style={{ color: "#c8ff00", fontWeight: 700 }}>{fmt(c.pagoActual)}</span>{c.historial && c.historial.length > 1 && <span> • {c.historial.length} cambios</span>}</div>
+                    <div style={{ fontSize: 10, opacity: 0.5, marginTop: 2 }}>Inicio: {fmt(c.pagoInicial)} → Actual: <span style={{ color: "#FFD600", fontWeight: 700 }}>{fmt(c.pagoActual)}</span>{c.historial && c.historial.length > 1 && <span> • {c.historial.length} cambios</span>}</div>
                     {c.historial && c.historial.length > 1 && (
                       <div style={{ display: "flex", gap: 4, marginTop: 4, flexWrap: "wrap" }}>
                         {c.historial.slice(-5).map((h, j) => (<span key={j} style={{ fontSize: 9, background: h.upsale ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.06)", color: h.upsale ? "#00ff88" : "rgba(255,255,255,0.4)", padding: "1px 6px", fontWeight: h.upsale ? 700 : 400 }}>{h.fecha}: {h.upsale ? `+${fmt(h.upsale)}` : fmt(h.monto)}</span>))}
@@ -453,11 +453,11 @@ export default function KPIDashboard() {
               <SectionHeader title="Activos IA" icon="🤖" />
               <Btn variant="accent" small onClick={() => setShowAddActivo(true)}>+ Proyecto</Btn>
             </div>
-            <ParallelBars label1={`Nuevos (${data.activos.nuevos.length}/${g.activosNuevos})`} val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#c8ff00" label2={`Proceso (${data.activos.enProceso.length}/${g.activosProceso})`} val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" />
+            <ParallelBars label1={`Nuevos (${data.activos.nuevos.length}/${g.activosNuevos})`} val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2={`Proceso (${data.activos.enProceso.length}/${g.activosProceso})`} val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" />
             <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#ff8800" />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 20 }}>
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#c8ff00", marginBottom: 6 }}>■ NUEVOS</p>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#FFD600", marginBottom: 6 }}>■ NUEVOS</p>
                 {data.activos.nuevos.length === 0 && <p style={{ opacity: 0.3, fontSize: 12 }}>Vacío</p>}
                 {data.activos.nuevos.map((a, i) => (<ZebraBar key={a.id} index={i}><span style={{ fontSize: 12, flex: 1 }}>{a.name}</span><div style={{ display: "flex", gap: 4 }}><Btn variant="ghost" small onClick={() => moveActivo(a.id, "nuevos", "enProceso")} style={{ fontSize: 9 }}>→</Btn><Btn variant="danger" small onClick={() => removeActivo(a.id, "nuevos")}>✕</Btn></div></ZebraBar>))}
               </div>
@@ -587,7 +587,7 @@ export default function KPIDashboard() {
           <GoalBlock label="1. Upsale" valueKey="upsalePercent" editGoals={editGoals} setEditGoals={setEditGoals} kpiKey="upsale" editDates={editDates} setEditDates={setEditDates} placeholder="10" suffix="%" />
           <GoalBlock label="2. Ingreso Recurrente" valueKey="ingresoPesos" editGoals={editGoals} setEditGoals={setEditGoals} kpiKey="ingreso" editDates={editDates} setEditDates={setEditDates} placeholder="400000" prefix="$" suffix="MXN" />
           <div style={{ padding: "14px 0", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#c8ff00", textTransform: "uppercase" }}>3. Activos IA</p>
+            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#FFD600", textTransform: "uppercase" }}>3. Activos IA</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META NUEVOS</label><Input type="number" value={editGoals.activosNuevos || ""} onChange={(v) => setEditGoals({ ...editGoals, activosNuevos: v })} placeholder="5" /></div>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META EN PROCESO</label><Input type="number" value={editGoals.activosProceso || ""} onChange={(v) => setEditGoals({ ...editGoals, activosProceso: v })} placeholder="8" /></div>
@@ -598,7 +598,7 @@ export default function KPIDashboard() {
             </div>
           </div>
           <div style={{ padding: "14px 0", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#c8ff00", textTransform: "uppercase" }}>4. Ventas</p>
+            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#FFD600", textTransform: "uppercase" }}>4. Ventas</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META CERRADOS (#)</label><Input type="number" value={editGoals.ventasCerradas || ""} onChange={(v) => setEditGoals({ ...editGoals, ventasCerradas: v })} placeholder="10" /></div>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META VALOR ($)</label><Input type="number" value={editGoals.ventasValor || ""} onChange={(v) => setEditGoals({ ...editGoals, ventasValor: v })} placeholder="500000" /></div>
@@ -609,7 +609,7 @@ export default function KPIDashboard() {
             </div>
           </div>
           <div style={{ padding: "14px 0", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#c8ff00", textTransform: "uppercase" }}>5. Scouting de Talento</p>
+            <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 700, letterSpacing: 1.5, color: "#FFD600", textTransform: "uppercase" }}>5. Scouting de Talento</p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META VISITAS</label><Input type="number" value={editGoals.scoutingVisitas || ""} onChange={(v) => setEditGoals({ ...editGoals, scoutingVisitas: v })} placeholder="20" /></div>
               <div><label style={{ fontSize: 9, opacity: 0.4, letterSpacing: 1, display: "block", marginBottom: 3 }}>META CONTRATADOS</label><Input type="number" value={editGoals.scoutingContratacion || ""} onChange={(v) => setEditGoals({ ...editGoals, scoutingContratacion: v })} placeholder="5" /></div>
