@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_KEY = "kpi-dashboard-v5";
 const defaultDates = { fechaInicio: "", fechaFin: "" };
 
 const FUNNEL_STAGES = [
@@ -234,39 +233,38 @@ export default function KPIDashboard() {
   const [editingLead, setEditingLead] = useState(null);
   const [editLeadValor, setEditLeadValor] = useState("");
 
-  // ── Load from localStorage ──
+  // ── Load from server ──
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        const merged = {
-          ...defaultState, ...parsed,
-          meta: {
-            ...defaultState.meta, ...parsed.meta,
-            goals: { ...defaultState.meta.goals, ...(parsed.meta?.goals || {}) },
-            dates: { ...defaultState.meta.dates, ...(parsed.meta?.dates || {}) }
-          },
-          ventas: { ...defaultState.ventas, ...(parsed.ventas || {}) },
-        };
-        setData(merged);
-      } else {
-        setData(defaultState);
-      }
-    } catch {
-      setData(defaultState);
-    }
-    setLoading(false);
+    fetch("/api/data")
+      .then((r) => r.json())
+      .then((parsed) => {
+        if (parsed) {
+          const merged = {
+            ...defaultState, ...parsed,
+            meta: {
+              ...defaultState.meta, ...parsed.meta,
+              goals: { ...defaultState.meta.goals, ...(parsed.meta?.goals || {}) },
+              dates: { ...defaultState.meta.dates, ...(parsed.meta?.dates || {}) }
+            },
+            ventas: { ...defaultState.ventas, ...(parsed.ventas || {}) },
+          };
+          setData(merged);
+        } else {
+          setData(defaultState);
+        }
+      })
+      .catch(() => setData(defaultState))
+      .finally(() => setLoading(false));
   }, []);
 
-  // ── Save to localStorage ──
+  // ── Save to server ──
   const save = useCallback((nd) => {
     setData(nd);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(nd));
-    } catch (e) {
-      console.error("Error saving:", e);
-    }
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nd),
+    }).catch((e) => console.error("Error saving:", e));
   }, []);
 
   // ── Handlers ──
