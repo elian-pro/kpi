@@ -3,10 +3,10 @@ import { useState, useEffect, useCallback } from "react";
 const defaultDates = { fechaInicio: "", fechaFin: "" };
 
 const FUNNEL_STAGES = [
-  { key: "prospectos", label: "Prospectos", color: "#a855f7" },
-  { key: "interesados", label: "Interesados", color: "#00d4ff" },
-  { key: "porCerrar", label: "Por Cerrar", color: "#ffaa00" },
-  { key: "cerrados", label: "Cerrados", color: "#00ff88" },
+  { key: "prospectos", label: "Prospectos", color: "#FFD600" },
+  { key: "interesados", label: "Interesados", color: "#FFC200" },
+  { key: "porCerrar", label: "Por Cerrar", color: "#E6A800" },
+  { key: "cerrados", label: "Cerrados", color: "#CC8800" },
 ];
 
 const defaultState = {
@@ -89,7 +89,7 @@ const ProgressRing = ({ value, max, size = 120, color = "#fff", expectedPct }) =
 const TimelineStrip = ({ dates, actualPct, color }) => {
   const exp = calcExpected(dates); const dl = daysLeft(dates); const hasTimeline = exp != null;
   const status = !hasTimeline ? "none" : actualPct >= exp ? "ahead" : actualPct >= exp * 0.7 ? "ontrack" : "behind";
-  const sC = { ahead: "#FFD600", ontrack: "#ffaa00", behind: "#ff4444", none: "#555" };
+  const sC = { ahead: "#FFD600", ontrack: "#E6A800", behind: "#ff4444", none: "#555" };
   const sL = { ahead: "ADELANTADO", ontrack: "EN RANGO", behind: "ATRASADO", none: "SIN FECHAS" };
   return (
     <div style={{ marginTop: 8 }}>
@@ -104,7 +104,7 @@ const TimelineStrip = ({ dates, actualPct, color }) => {
           <span style={{ fontSize: 8, padding: "1px 6px", fontWeight: 800, letterSpacing: 1, background: sC[status], color: "#0a0a0a", fontFamily: "'DM Mono', monospace" }}>{sL[status]}</span>
           {hasTimeline && <span style={{ fontSize: 9, opacity: 0.4, fontFamily: "'DM Mono', monospace" }}>Esperado: {exp.toFixed(0)}% • Real: {actualPct.toFixed(0)}%</span>}
         </div>
-        {dl != null && <span style={{ fontSize: 9, opacity: 0.5, fontFamily: "'DM Mono', monospace", color: dl <= 7 ? "#ff4444" : dl <= 30 ? "#ffaa00" : "inherit" }}>{dl > 0 ? `${dl}d restantes` : dl === 0 ? "VENCE HOY" : `VENCIÓ hace ${Math.abs(dl)}d`}</span>}
+        {dl != null && <span style={{ fontSize: 9, opacity: 0.5, fontFamily: "'DM Mono', monospace", color: dl <= 7 ? "#ff4444" : dl <= 30 ? "#E6A800" : "inherit" }}>{dl > 0 ? `${dl}d restantes` : dl === 0 ? "VENCE HOY" : `VENCIÓ hace ${Math.abs(dl)}d`}</span>}
       </div>
       {hasTimeline && <div style={{ fontSize: 9, opacity: 0.3, marginTop: 2, fontFamily: "'DM Mono', monospace" }}>{fmtDate(dates.fechaInicio)} → {fmtDate(dates.fechaFin)}</div>}
     </div>
@@ -339,7 +339,7 @@ export default function KPIDashboard() {
     { id: "scouting", label: "Scouting" }, { id: "historial", label: "Historial" },
   ];
 
-  const badgeColor = (t) => ({ cliente_agregado:"#FFD600", pago_actualizado:"#00d4ff", upsale:"#00ff88", activo_ia:"#ff8800", scouting:"#a855f7", contratado:"#22d3ee", descartado:"#ff4444", lead_nuevo:"#a855f7", lead_movido:"#ffaa00", lead_descartado:"#ff4444" })[t] || "#555";
+  const badgeColor = (t) => ({ cliente_agregado:"#FFD600", pago_actualizado:"#FFC200", upsale:"#FFD600", activo_ia:"#E6A800", scouting:"#CC8800", contratado:"#FFC200", descartado:"#ff4444", lead_nuevo:"#CC8800", lead_movido:"#E6A800", lead_descartado:"#ff4444" })[t] || "#555";
   const cardStyle = { border: "1px solid rgba(255,255,255,0.2)", padding: 20, background: "repeating-linear-gradient(180deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 20px, transparent 20px, transparent 40px)" };
   const nextStage = (key) => { const i = FUNNEL_STAGES.findIndex(s => s.key === key); return i < FUNNEL_STAGES.length - 1 ? FUNNEL_STAGES[i+1] : null; };
 
@@ -387,14 +387,14 @@ export default function KPIDashboard() {
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Ingreso Recurrente</p>
-                <ProgressRing value={totalIngresoActual} max={g.ingresoPesos} size={100} color="#00d4ff" expectedPct={calcExpected(dt.ingreso)} />
+                <ProgressRing value={totalIngresoActual} max={g.ingresoPesos} size={100} color="#FFC200" expectedPct={calcExpected(dt.ingreso)} />
                 <p style={{ textAlign: "center", margin: "6px 0 0", fontSize: 11, opacity: 0.6 }}>{fmt(totalIngresoActual)} / {fmt(g.ingresoPesos)}</p>
-                <TimelineStrip dates={dt.ingreso} actualPct={ingresoPct} color="#00d4ff" />
+                <TimelineStrip dates={dt.ingreso} actualPct={ingresoPct} color="#FFC200" />
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Activos IA</p>
-                <div style={{ marginTop: 8 }}><ParallelBars label1="Nuevos" val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2="En Proceso" val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" /></div>
-                <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#ff8800" />
+                <div style={{ marginTop: 8 }}><ParallelBars label1="Nuevos" val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2="En Proceso" val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#E6A800" /></div>
+                <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#E6A800" />
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Ventas</p>
@@ -403,12 +403,12 @@ export default function KPIDashboard() {
                   <span>Cerrados: {ventasCerradas.length}/{g.ventasCerradas}</span>
                   <span>{fmt(ventasValorCerrado)}</span>
                 </div>
-                <TimelineStrip dates={dt.ventas} actualPct={ventasCerradasPct} color="#00ff88" />
+                <TimelineStrip dates={dt.ventas} actualPct={ventasCerradasPct} color="#FFD600" />
               </div>
               <div style={cardStyle}>
                 <p style={{ margin: "0 0 4px", fontSize: 10, letterSpacing: 2, opacity: 0.5, textTransform: "uppercase" }}>Scouting Talento</p>
-                <div style={{ marginTop: 8 }}><ParallelBars label1="Visitas" val1={data.scouting.visitas.length} max1={g.scoutingVisitas} color1="#a855f7" label2="Contratados" val2={(data.scouting.contratados||[]).length} max2={g.scoutingContratacion} color2="#00ff88" /></div>
-                <TimelineStrip dates={dt.scouting} actualPct={scoutingTotalPct} color="#a855f7" />
+                <div style={{ marginTop: 8 }}><ParallelBars label1="Visitas" val1={data.scouting.visitas.length} max1={g.scoutingVisitas} color1="#CC8800" label2="Contratados" val2={(data.scouting.contratados||[]).length} max2={g.scoutingContratacion} color2="#FFD600" /></div>
+                <TimelineStrip dates={dt.scouting} actualPct={scoutingTotalPct} color="#CC8800" />
               </div>
             </div>
             <SectionHeader title="Actividad Reciente" icon="⚡" count={data.history.length} />
@@ -434,12 +434,12 @@ export default function KPIDashboard() {
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>PAGO INICIAL</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800 }}>{fmt(totalIngresoInicial)}</p></div>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>PAGO ACTUAL</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#FFD600" }}>{fmt(totalIngresoActual)}</p></div>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>UPSALE</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: upsaleActual >= g.upsalePercent ? "#FFD600" : "#ff4444" }}>{upsaleActual.toFixed(1)}%</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>ACUMULADO</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#00ff88" }}>{fmt(totalIngresoActual - totalIngresoInicial)}</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>ACUMULADO</p><p style={{ margin: "4px 0 0", fontSize: 18, fontWeight: 800, color: "#FFD600" }}>{fmt(totalIngresoActual - totalIngresoInicial)}</p></div>
             </div>
             <div style={{ marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, opacity: 0.5, marginBottom: 4 }}><span>Progreso a {fmt(g.ingresoPesos)}</span><span>{ingresoPct.toFixed(1)}%</span></div>
-              <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ingresoPct}%`, height: "100%", background: "linear-gradient(90deg, #00d4ff, #FFD600)", transition: "width .6s" }} /></div>
-              <TimelineStrip dates={dt.ingreso} actualPct={ingresoPct} color="#00d4ff" />
+              <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ingresoPct}%`, height: "100%", background: "linear-gradient(90deg, #FFC200, #FFD600)", transition: "width .6s" }} /></div>
+              <TimelineStrip dates={dt.ingreso} actualPct={ingresoPct} color="#FFC200" />
             </div>
             {data.clients.length === 0 && <p style={{ opacity: 0.4, fontSize: 13, padding: 20, textAlign: "center" }}>Agrega tu primer cliente.</p>}
             {data.clients.map((c, i) => {
@@ -454,7 +454,7 @@ export default function KPIDashboard() {
                     <div style={{ fontSize: 10, opacity: 0.5, marginTop: 2 }}>Inicio: {fmt(c.pagoInicial)} → Actual: <span style={{ color: "#FFD600", fontWeight: 700 }}>{fmt(c.pagoActual)}</span>{c.historial && c.historial.length > 1 && <span> • {c.historial.length} cambios</span>}</div>
                     {c.historial && c.historial.length > 1 && (
                       <div style={{ display: "flex", gap: 4, marginTop: 4, flexWrap: "wrap" }}>
-                        {c.historial.slice(-5).map((h, j) => (<span key={j} style={{ fontSize: 9, background: h.upsale ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.06)", color: h.upsale ? "#00ff88" : "rgba(255,255,255,0.4)", padding: "1px 6px", fontWeight: h.upsale ? 700 : 400 }}>{h.fecha}: {h.upsale ? `+${fmt(h.upsale)}` : fmt(h.monto)}</span>))}
+                        {c.historial.slice(-5).map((h, j) => (<span key={j} style={{ fontSize: 9, background: h.upsale ? "rgba(255,214,0,0.15)" : "rgba(255,255,255,0.06)", color: h.upsale ? "#FFD600" : "rgba(255,255,255,0.4)", padding: "1px 6px", fontWeight: h.upsale ? 700 : 400 }}>{h.fecha}: {h.upsale ? `+${fmt(h.upsale)}` : fmt(h.monto)}</span>))}
                       </div>
                     )}
                   </div>
@@ -476,8 +476,8 @@ export default function KPIDashboard() {
               <SectionHeader title="Activos IA" icon="🤖" />
               <Btn variant="accent" small onClick={() => setShowAddActivo(true)}>+ Proyecto</Btn>
             </div>
-            <ParallelBars label1={`Nuevos (${data.activos.nuevos.length}/${g.activosNuevos})`} val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2={`Proceso (${data.activos.enProceso.length}/${g.activosProceso})`} val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#ff8800" />
-            <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#ff8800" />
+            <ParallelBars label1={`Nuevos (${data.activos.nuevos.length}/${g.activosNuevos})`} val1={data.activos.nuevos.length} max1={g.activosNuevos} color1="#FFD600" label2={`Proceso (${data.activos.enProceso.length}/${g.activosProceso})`} val2={data.activos.enProceso.length} max2={g.activosProceso} color2="#E6A800" />
+            <TimelineStrip dates={dt.activos} actualPct={activosTotalPct} color="#E6A800" />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 20 }}>
               <div>
                 <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#FFD600", marginBottom: 6 }}>■ NUEVOS</p>
@@ -485,7 +485,7 @@ export default function KPIDashboard() {
                 {data.activos.nuevos.map((a, i) => (<ZebraBar key={a.id} index={i}><span style={{ fontSize: 12, flex: 1 }}>{a.name}</span><div style={{ display: "flex", gap: 4 }}><Btn variant="ghost" small onClick={() => moveActivo(a.id, "nuevos", "enProceso")} style={{ fontSize: 9 }}>→</Btn><Btn variant="danger" small onClick={() => removeActivo(a.id, "nuevos")}>✕</Btn></div></ZebraBar>))}
               </div>
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#ff8800", marginBottom: 6 }}>■ EN PROCESO</p>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#E6A800", marginBottom: 6 }}>■ EN PROCESO</p>
                 {data.activos.enProceso.length === 0 && <p style={{ opacity: 0.3, fontSize: 12 }}>Vacío</p>}
                 {data.activos.enProceso.map((a, i) => (<ZebraBar key={a.id} index={i}><span style={{ fontSize: 12, flex: 1 }}>{a.name}</span><div style={{ display: "flex", gap: 4 }}><Btn variant="ghost" small onClick={() => moveActivo(a.id, "enProceso", "nuevos")} style={{ fontSize: 9 }}>←</Btn><Btn variant="danger" small onClick={() => removeActivo(a.id, "enProceso")}>✕</Btn></div></ZebraBar>))}
               </div>
@@ -502,9 +502,9 @@ export default function KPIDashboard() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 20, padding: 16, border: "1px solid rgba(255,255,255,0.15)", background: "repeating-linear-gradient(180deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 16px, transparent 16px, transparent 32px)" }}>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>EN EMBUDO</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800 }}>{ventasTotalLeads}</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>VALOR PIPELINE</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#a855f7" }}>{fmt(FUNNEL_STAGES.reduce((s, st) => s + (data.ventas[st.key]||[]).reduce((a, l) => a + (l.valor||0), 0), 0))}</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>CERRADOS</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#00ff88" }}>{ventasCerradas.length} / {g.ventasCerradas}</p></div>
-              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>VALOR CERRADO</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#00ff88" }}>{fmt(ventasValorCerrado)}</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>VALOR PIPELINE</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#CC8800" }}>{fmt(FUNNEL_STAGES.reduce((s, st) => s + (data.ventas[st.key]||[]).reduce((a, l) => a + (l.valor||0), 0), 0))}</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>CERRADOS</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#FFD600" }}>{ventasCerradas.length} / {g.ventasCerradas}</p></div>
+              <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>VALOR CERRADO</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800, color: "#FFD600" }}>{fmt(ventasValorCerrado)}</p></div>
               <div><p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 1 }}>META VALOR</p><p style={{ margin: "4px 0 0", fontSize: 20, fontWeight: 800 }}>{fmt(g.ventasValor)}</p></div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 20, marginBottom: 20, alignItems: "start" }}>
@@ -514,13 +514,13 @@ export default function KPIDashboard() {
               <div>
                 <div style={{ marginBottom: 12 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, opacity: 0.5, marginBottom: 4 }}><span>Cerrados: {ventasCerradas.length}/{g.ventasCerradas}</span><span>{ventasCerradasPct.toFixed(0)}%</span></div>
-                  <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ventasCerradasPct}%`, height: "100%", background: "#00ff88", transition: "width .6s" }} /></div>
+                  <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ventasCerradasPct}%`, height: "100%", background: "#FFD600", transition: "width .6s" }} /></div>
                 </div>
                 <div style={{ marginBottom: 12 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, opacity: 0.5, marginBottom: 4 }}><span>Valor: {fmt(ventasValorCerrado)}/{fmt(g.ventasValor)}</span><span>{ventasValorPct.toFixed(0)}%</span></div>
-                  <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ventasValorPct}%`, height: "100%", background: "linear-gradient(90deg, #a855f7, #00ff88)", transition: "width .6s" }} /></div>
+                  <div style={{ height: 10, background: "rgba(255,255,255,0.06)" }}><div style={{ width: `${ventasValorPct}%`, height: "100%", background: "linear-gradient(90deg, #CC8800, #FFD600)", transition: "width .6s" }} /></div>
                 </div>
-                <TimelineStrip dates={dt.ventas} actualPct={ventasCerradasPct} color="#00ff88" />
+                <TimelineStrip dates={dt.ventas} actualPct={ventasCerradasPct} color="#FFD600" />
               </div>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
@@ -571,18 +571,18 @@ export default function KPIDashboard() {
               <SectionHeader title="Scouting de Talento" icon="🎯" />
               <Btn variant="accent" small onClick={() => setShowAddScouting(true)}>+ Visita</Btn>
             </div>
-            <ParallelBars label1={`Visitas (${data.scouting.visitas.length}/${g.scoutingVisitas})`} val1={data.scouting.visitas.length} max1={g.scoutingVisitas} color1="#a855f7" label2={`Contratados (${(data.scouting.contratados||[]).length}/${g.scoutingContratacion})`} val2={(data.scouting.contratados||[]).length} max2={g.scoutingContratacion} color2="#00ff88" />
-            <TimelineStrip dates={dt.scouting} actualPct={scoutingTotalPct} color="#a855f7" />
+            <ParallelBars label1={`Visitas (${data.scouting.visitas.length}/${g.scoutingVisitas})`} val1={data.scouting.visitas.length} max1={g.scoutingVisitas} color1="#CC8800" label2={`Contratados (${(data.scouting.contratados||[]).length}/${g.scoutingContratacion})`} val2={(data.scouting.contratados||[]).length} max2={g.scoutingContratacion} color2="#FFD600" />
+            <TimelineStrip dates={dt.scouting} actualPct={scoutingTotalPct} color="#CC8800" />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 20 }}>
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#a855f7", marginBottom: 6 }}>■ VISITAS</p>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#CC8800", marginBottom: 6 }}>■ VISITAS</p>
                 {data.scouting.visitas.length === 0 && <p style={{ opacity: 0.3, fontSize: 12 }}>Vacío</p>}
                 {data.scouting.visitas.map((s, i) => (<ZebraBar key={s.id} index={i}><div style={{ flex: 1 }}><span style={{ fontSize: 12 }}>{s.name}</span><span style={{ fontSize: 9, opacity: 0.4, display: "block" }}>{s.createdAt}</span></div><div style={{ display: "flex", gap: 3 }}><Btn variant="accent" small onClick={() => markContratado(s.id, "visitas")} style={{ fontSize: 9 }}>✓</Btn><Btn variant="danger" small onClick={() => markDescartado(s.id, "visitas")} style={{ fontSize: 9 }}>✕</Btn></div></ZebraBar>))}
               </div>
               <div>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#00ff88", marginBottom: 6 }}>■ CONTRATADOS</p>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, color: "#FFD600", marginBottom: 6 }}>■ CONTRATADOS</p>
                 {(!data.scouting.contratados || data.scouting.contratados.length === 0) && <p style={{ opacity: 0.3, fontSize: 12 }}>Vacío</p>}
-                {(data.scouting.contratados||[]).map((s, i) => (<ZebraBar key={s.id} index={i}><div style={{ flex: 1 }}><span style={{ fontSize: 12, color: "#00ff88" }}>{s.name}</span><span style={{ fontSize: 9, opacity: 0.4, display: "block" }}>{s.contratadoAt || s.createdAt}</span></div><Btn variant="danger" small onClick={() => removeScouting(s.id, "contratados")} style={{ fontSize: 9 }}>✕</Btn></ZebraBar>))}
+                {(data.scouting.contratados||[]).map((s, i) => (<ZebraBar key={s.id} index={i}><div style={{ flex: 1 }}><span style={{ fontSize: 12, color: "#FFD600" }}>{s.name}</span><span style={{ fontSize: 9, opacity: 0.4, display: "block" }}>{s.contratadoAt || s.createdAt}</span></div><Btn variant="danger" small onClick={() => removeScouting(s.id, "contratados")} style={{ fontSize: 9 }}>✕</Btn></ZebraBar>))}
               </div>
             </div>
           </div>
