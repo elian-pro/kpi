@@ -357,7 +357,7 @@ export default function KPIDashboard() {
       {/* Header */}
       <div style={{ padding: "20px 24px", borderBottom: "3px solid #FFD600", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 36, height: 36, background: "#FFD600", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#0a0a0a", fontWeight: 800, fontSize: 18 }}>Z</span></div>
+          <img src="/logo.png" alt="Zebra" style={{ height: 36, width: "auto", objectFit: "contain" }} />
           <div>
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 800, letterSpacing: 3, textTransform: "uppercase" }}>KPI Tracker</h1>
             <p style={{ margin: 0, fontSize: 10, opacity: 0.5, letterSpacing: 2 }}>ZEBRA DASHBOARD • {today()}</p>
