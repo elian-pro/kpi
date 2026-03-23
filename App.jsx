@@ -234,32 +234,55 @@ export default function KPIDashboard() {
   const [editLeadValor, setEditLeadValor] = useState("");
 
   // ── Load from server ──
+  const mergeData = (parsed) => ({
+    ...defaultState, ...parsed,
+    meta: {
+      ...defaultState.meta, ...parsed.meta,
+      goals: { ...defaultState.meta.goals, ...(parsed.meta?.goals || {}) },
+      dates: { ...defaultState.meta.dates, ...(parsed.meta?.dates || {}) }
+    },
+    ventas: { ...defaultState.ventas, ...(parsed.ventas || {}) },
+  });
+
   useEffect(() => {
     fetch("/api/data")
       .then((r) => r.json())
       .then((parsed) => {
         if (parsed) {
-          const merged = {
-            ...defaultState, ...parsed,
-            meta: {
-              ...defaultState.meta, ...parsed.meta,
-              goals: { ...defaultState.meta.goals, ...(parsed.meta?.goals || {}) },
-              dates: { ...defaultState.meta.dates, ...(parsed.meta?.dates || {}) }
-            },
-            ventas: { ...defaultState.ventas, ...(parsed.ventas || {}) },
-          };
-          setData(merged);
+          setData(mergeData(parsed));
         } else {
+          // Server has no data — try localStorage as fallback (migration)
+          try {
+            const local = localStorage.getItem("kpi-dashboard-v5");
+            if (local) {
+              const fromLocal = mergeData(JSON.parse(local));
+              setData(fromLocal);
+              // Persist to server so next deploy won't lose it
+              fetch("/api/data", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(fromLocal) }).catch(() => {});
+            } else {
+              setData(defaultState);
+            }
+          } catch {
+            setData(defaultState);
+          }
+        }
+      })
+      .catch(() => {
+        // Server unreachable — use localStorage
+        try {
+          const local = localStorage.getItem("kpi-dashboard-v5");
+          setData(local ? mergeData(JSON.parse(local)) : defaultState);
+        } catch {
           setData(defaultState);
         }
       })
-      .catch(() => setData(defaultState))
       .finally(() => setLoading(false));
   }, []);
 
-  // ── Save to server ──
+  // ── Save to server + localStorage backup ──
   const save = useCallback((nd) => {
     setData(nd);
+    try { localStorage.setItem("kpi-dashboard-v5", JSON.stringify(nd)); } catch {}
     fetch("/api/data", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
